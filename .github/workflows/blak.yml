@@ -1,23 +1,23 @@
-name: CI
-
-# متى يشتغل الـ workflow
+name: Matrix Build teaf
 on:
-  workflow_dispatch:   # يعني يدوي فقط
+   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+ build:
+   runs-on: ${{ matrix.os }}
+   strategy:
+     matrix:
+       os: [ubuntu-latest, windows-latest]
+       node: [18, 20]
+   steps:
+     - uses: actions/checkout@v4
 
-    steps:
-      # يسحب ملفات المشروع من المستودع
-      - uses: actions/checkout@v4
+     - name: Setup Node ${{ matrix.node }}
+       uses: actions/setup-node@v4
+       with:
+         node-version: ${{ matrix.node }}
 
-      # يشغل أمر واحد
-      - name: Run hello world
-        run: echo "Hello from GitHub Actions!"
-
-      # مثال أوامر متعددة
-      - name: Multi-line script
-        run: |
-          echo "This is line 1"
-          echo "This is line 2"
+     - name: Print environment
+       run: |
+         node -v
+         echo "OS: $RUNNER_OS"
