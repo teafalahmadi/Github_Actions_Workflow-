@@ -1,0 +1,23 @@
+name: CI
+
+# متى يشتغل الـ workflow
+on:
+  workflow_dispatch:   # يعني يدوي فقط
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # يسحب ملفات المشروع من المستودع
+      - uses: actions/checkout@v4
+
+      # يشغل أمر واحد
+      - name: Run hello world
+        run: echo "Hello from GitHub Actions!"
+
+      # مثال أوامر متعددة
+      - name: Multi-line script
+        run: |
+          echo "This is line 1"
+          echo "This is line 2"
